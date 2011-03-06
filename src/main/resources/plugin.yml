@@ -5,6 +5,10 @@ authors:
   - Plutonium239
 commands:
   sampleplugin:
-    description:
+    description: The only command included with SamplePlugin
     aliases:
-    usage:
+      - /samplepluginalias
+    usage: |
+           /<command> [invalid]
+           Example: /<command> - Runs SamplePlugin command.
+           Example: /<command> invalid - Imitates invalid command.
