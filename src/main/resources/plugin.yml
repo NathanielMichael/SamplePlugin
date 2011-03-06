@@ -1,0 +1,10 @@
+name: SamplePlugin
+main: net.craftstars.sampleplugin.SamplePlugin
+version: 1.0
+authors:
+  - Plutonium239
+commands:
+  sampleplugin:
+    description:
+    aliases:
+    usage:

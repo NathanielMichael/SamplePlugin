@@ -1,0 +1,112 @@
+<!--
+This file is part of SamplePlugin.
+
+SamplePlugin is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+SamplePlugin is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with SamplePlugin.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<project name="SamplePlugin" default="jar" basedir=".">
+  
+  <echo message="============================="/>
+  <echo message="* Thanks for using the SamplePlugin starter kit!"/>
+  <echo message="* This software is licensed under the LGPL, more info in the LICENSE file."/>
+  <echo message="* Please make sure you edit the build.properties file if you haven't!"/>
+  <echo message=""/>
+  
+  <property file="build.properties"/>
+
+  <echo message="Build Configuration:"/>
+  <echo message=" - Project Name:  ${project.name}"/>
+  <echo message=" - JAR Name:      ${jar.name}"/>
+  <echo message=" - Source Dir:    ${basedir}/${src.dir}"/>
+  <echo message=" - Resources Dir: ${basedir}/${resources.dir}"/>
+  <echo message=" - Library Dir:   ${basedir}/${lib.dir}"/>
+  <echo message=" - Target Dir:    ${basedir}/${target.dir}"/>
+  <echo message=" - Classes Dir:   ${basedir}/${classes.dir}"/>
+  <echo message=" - Artifacts Dir: ${basedir}/${artifacts.dir}"/>
+  <echo message="============================="/>
+  <echo message=""/>
+  
+  <!-- =================================
+        target: init_lib
+        
+        Creates directories required for fetching libraries
+       ================================= -->
+  <target name="init_lib">
+    <mkdir dir="${lib.dir}"/>
+  </target>
+  
+  <!-- =================================
+        target: init_target
+        
+        Creates directories required for building/etc.
+       ================================= -->
+  <target name="init_target">
+    <mkdir dir="${target.dir}"/>
+    <mkdir dir="${classes.dir}"/>
+    <mkdir dir="${artifacts.dir}"/>
+  </target>
+  
+  <!-- =================================
+        target: get_latest_craftbukkit
+        
+        Checks for latest CraftBukkit jar and fetches it if needed
+       ================================= -->
+  <target name="get_latest_craftbukkit" depends="init_lib">
+    <get src="${craftbukkit.url}" dest="${lib.dir}/${craftbukkit.jar}" usetimestamp="true"/>
+  </target>
+
+  <!-- =================================
+        target: compile
+        
+        Compiles java sources
+       ================================= -->
+  <target name="compile" depends="init_target, get_latest_craftbukkit">
+    <javac srcdir="${src.dir}" destdir="${classes.dir}" includeantruntime="false">
+      <classpath>
+        <pathelement location="${lib.dir}/${craftbukkit.jar}"/>
+      </classpath>
+    </javac>
+  </target>
+  
+  <!-- =================================
+        target: jar
+        
+        Creates a jar file from compiled classes and includes resources at root of jar
+       ================================= -->
+  <target name="jar" depends="compile">
+    <jar jarfile="${artifacts.dir}/${jar.name}" update="true">
+      <fileset dir="${classes.dir}/"/>
+      <fileset dir="${resources.dir}/"/>
+    </jar>
+  </target>
+  
+  <!-- =================================
+        target: clean
+        
+        Deletes everything created by running a build
+       ================================= -->
+  <target name="clean">
+    <delete dir="${target.dir}"/>
+  </target>
+  
+  <!-- =================================
+        target: superclean
+        
+        Deletes everything 'clean' does but also the lib directory.
+        WARNING: THIS MIGHT DELETE SOMETHING YOU DONT WANT IT TO
+       ================================= -->
+  <target name="superclean" depends="clean">
+    <delete dir="${lib.dir}"/>
+  </target>
+  
+</project>

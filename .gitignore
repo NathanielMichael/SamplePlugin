@@ -1,0 +1,9 @@
+/.classpath
+/.project
+/.settings
+/nbproject
+/bin
+/target
+/lib
+/build.number
+.*.sw[a-p]
